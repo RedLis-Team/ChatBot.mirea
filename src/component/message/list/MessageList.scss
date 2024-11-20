@@ -1,0 +1,26 @@
+.message-list{
+	display: flex;
+	flex-direction: column;
+
+	&__text{
+		font-family: "Roboto", sans-serif;
+		font-weight: 500;
+
+		color: #494949;
+		font-size: 48px;
+
+		text-align: center;
+	}
+
+	&__empty-log{
+		max-width: 800px;
+		margin: auto;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		height: calc(100vh - 302px);
+
+	}
+}

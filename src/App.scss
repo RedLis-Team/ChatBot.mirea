@@ -1,0 +1,9 @@
+.app{
+	display: flex;
+	flex-direction: column;
+
+	&__message-list{
+ 		width: 100%;
+		min-height: calc(100vh - 302px);
+	}
+}

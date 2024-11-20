@@ -1,0 +1,45 @@
+.micro{
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	overflow: hidden;
+
+	padding: 10px;
+
+	&__blob-container{
+		position: relative;
+		width: 200px;
+		height: 200px;
+	}
+
+	&__blob{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	&__button{
+		position: absolute;
+
+		z-index: 1000;
+
+		border: none;
+		background: none;
+
+		font-size: 40px;
+
+		width: 150px;
+		height: 150px;
+
+		background: #02633D;
+
+		border-radius: 50%;
+
+		cursor: pointer;
+
+		color: white;
+	}
+}
