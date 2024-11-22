@@ -22,25 +22,18 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
 
     useEffect(() => {
         if (isListeningMessage) {
-            setNewMessages(transcript.split().map((str) => {
-                if (str.toLowerCase().includes('мира')){
-                    return str.toLowerCase().replace('мира', 'МИРЭА')
-                }
-
-                return str
-            }).join(' '))
-
-
+            setNewMessages(transcript)
 
             clearTimeout(timer.current)
-            timer.current = setTimeout(() => {
+            timer.current = setTimeout(async () => {
                 setIsListeningMessage(false)
+
+                const {data} = await botAxios.get(`/format?text=${newMessages}`)
+                setNewMessages(data)
 
                 if (newMessages.trim() === ''){
                     return
                 }
-
-                window.scrollTo(0, document.body.scrollHeight);
 
                 setMessageList(prev=>[...prev, {type: 'me', text: newMessages}])
                 setNewMessages('')
@@ -51,7 +44,6 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
                 .then(({data}) => {
                     setIsLoadingBotAnswer(false)
                     setMessageList(prev=>[...prev, data])
-                    window.scrollTo(0, document.body.scrollHeight);
                 }).catch(()=>{
                     setMessageList(prev=>[...prev, {
                         type: 'bot',
