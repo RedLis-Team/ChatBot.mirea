@@ -26,7 +26,7 @@ export function MessageCard({type, text, isLoading}){
         if (type ==='bot'){
             return (
                 <TypeAnimation
-                    speed={70}
+                    speed={80}
                     sequence={text}
                     wrapper="span"
                     cursor={false}
