@@ -7,7 +7,7 @@ export function Header() {
         <header className='header'>
             <FaBots className='header__icon' />
             <div className='header__text'>
-                <h1>Институт искусственного интеллекта</h1>
+                <h1>Для запуска скажи "Привет Бот"</h1>
             </div>
         </header>
     )

@@ -87,9 +87,7 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
                         speed={75}
                         className='message-list__text'
                         sequence={[
-                            'Узнать про программы обучения', // Types 'One'
-                            2000,
-                            'Скажи "Окей бот" и задай вопрос',
+                            'Узнать про программы обучения',
                             2000,
                             'Посмотреть проходные баллы по направлению!',
                             2000,
