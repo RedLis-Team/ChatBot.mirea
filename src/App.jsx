@@ -6,6 +6,7 @@ import { Footer } from './component/footer/Footer';
 import { Micro } from './component/micro/Micro';
 import { MessageList } from './component/message/list/MessageList';
 import {useEffect,  useState} from "react";
+
 import SpeechRecognition,{useSpeechRecognition} from "react-speech-recognition";
 
 function App() {
@@ -15,13 +16,11 @@ function App() {
 		transcript,
 		resetTranscript,
 		listening,
-		browserSupportsSpeechRecognition,  // Boolean to check browser compatibility
+		browserSupportsSpeechRecognition,
 	} = useSpeechRecognition({
 		language: 'ru-RU',
 		continuous: true
 	});
-
-	console.log(listening)
 
 	useEffect(() => {
 		if (browserSupportsSpeechRecognition){
@@ -29,8 +28,6 @@ function App() {
 		}
 
 	}, [listening]);
-
-	console.log(listening)
 
 	useEffect(() => {
 		if (!isListeningMessage && transcript.toLocaleLowerCase().includes('привет бот')) {

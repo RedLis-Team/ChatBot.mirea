@@ -17,6 +17,7 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
     const [isLoadingBotAnswer, setIsLoadingBotAnswer] = useState(false);
 
     const timer = useRef(null);
+    const listEndRef = useRef(null);
 
     useEffect(() => {
         if (isListeningMessage) {
@@ -42,8 +43,11 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
                     setIsLoadingBotAnswer(false)
                     setMessageList(prev=>[...prev, data])
                     window.scrollTo(0, document.body.scrollHeight);
-                }).catch((error)=>{
-                    console.log(error)
+                }).catch(()=>{
+                    setMessageList(prev=>[...prev, {
+                        type: 'bot',
+                        text: 'Извините, я не нашел точной информации по вашему запросу о МИРЭА. Пожалуйста, уточните вопрос или обратитесь к официальному сайту института для получения более подробной информации.'
+                    }])
                     setIsLoadingBotAnswer(false)
                 })
 
@@ -51,6 +55,10 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
             }, 3000)
         }
     })
+
+    useEffect(() => {
+        listEndRef.current.scrollIntoView({ behavior: 'smooth' })
+    }, [newMessages, messageList])
 
     const renderMessageList=()=>{
         return (
@@ -64,17 +72,17 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
 
     return (
         <div className='message-list'>
-            {messageList.length === 0 && newMessages.trim() === '' ?(
+            {messageList.length === 0 && newMessages.trim() === '' ? (
                 <div className='message-list__empty-log'>
                     <TypeAnimation
                         className='message-list__text'
                         sequence={[
                             'Узнать про программы обучения', // Types 'One'
-                            3000,
-                            'Посмотреть проходные баллы прошлых лет',
-                            3000,
-                            'Скажи привет МИРЭА и задай вопрос',
-                            3000,
+                            2000,
+                            'Скажи "Окей бот" и задай вопрос',
+                            2000,
+                            'Посмотреть проходные баллы по направлению!',
+                            2000,
                         ]}
                         wrapper="span"
                         cursor={true}
@@ -82,6 +90,7 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
                     />
                 </div>
             ) : renderMessageList()}
+            <div ref={listEndRef}/>
         </div>
     )
 }
