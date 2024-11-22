@@ -28,7 +28,7 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
                 }
 
                 return str
-            }))
+            }).join(' '))
 
 
 
