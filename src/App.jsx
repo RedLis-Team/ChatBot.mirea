@@ -22,6 +22,8 @@ function App() {
 		continuous: true
 	});
 
+	console.log(listening)
+
 	useEffect(() => {
 		if (browserSupportsSpeechRecognition){
 			SpeechRecognition.startListening({ continuous: true })

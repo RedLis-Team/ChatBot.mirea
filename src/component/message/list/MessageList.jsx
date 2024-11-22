@@ -52,7 +52,7 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
                 })
 
                 resetTranscript()
-            }, 3000)
+            }, 2500)
         }
     })
 
