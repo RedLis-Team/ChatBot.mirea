@@ -22,14 +22,17 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
 
     useEffect(() => {
         if (isListeningMessage) {
-            setNewMessages(transcript)
+            setNewMessages(transcript.split().map((v,i)=>{
+                if (v.includes('мира') && v.includes('МИРЭА')){
+                    return 'МИРЭА'
+                }
+
+                return v
+            }).join(' '))
 
             clearTimeout(timer.current)
             timer.current = setTimeout(async () => {
                 setIsListeningMessage(false)
-
-                const {data} = await botAxios.get(`/format?text=${newMessages}`)
-                setNewMessages(data)
 
                 if (newMessages.trim() === ''){
                     return
