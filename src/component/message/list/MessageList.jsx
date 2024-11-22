@@ -3,6 +3,7 @@ import { MessageCard } from '../card/MessageCard';
 import { TypeAnimation } from 'react-type-animation';
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
+import {values} from "regenerator-runtime";
 
 const botUrl = 'http://10.0.58.117:8001'
 
@@ -21,7 +22,15 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
 
     useEffect(() => {
         if (isListeningMessage) {
-            setNewMessages(transcript)
+            setNewMessages(transcript.split().map((str) => {
+                if (str.toLowerCase().includes('мира')){
+                    return str.toLowerCase().replace('мира', 'МИРЭА')
+                }
+
+                return str
+            }))
+
+
 
             clearTimeout(timer.current)
             timer.current = setTimeout(() => {
