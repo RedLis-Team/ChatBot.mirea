@@ -13,4 +13,13 @@
 		color: #5d5d5d;
 		font-size: 80px;
 	}
+
+	&__text{
+		color: #5d5d5d;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		width: 100%;
+	}
 }
