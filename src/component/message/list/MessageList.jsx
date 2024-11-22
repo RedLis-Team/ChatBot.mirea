@@ -84,6 +84,7 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
             {messageList.length === 0 && newMessages.trim() === '' ? (
                 <div className='message-list__empty-log'>
                     <TypeAnimation
+                        speed={75}
                         className='message-list__text'
                         sequence={[
                             'Узнать про программы обучения', // Types 'One'
