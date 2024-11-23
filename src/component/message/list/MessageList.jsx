@@ -3,7 +3,6 @@ import { MessageCard } from '../card/MessageCard';
 import { TypeAnimation } from 'react-type-animation';
 import {useEffect, useRef, useState} from "react";
 import axios from "axios";
-import {values} from "regenerator-runtime";
 
 const botUrl = 'http://10.0.58.117:8001'
 
@@ -19,16 +18,11 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
 
     const timer = useRef(null);
     const listEndRef = useRef(null);
+    const listRef = useRef(null);
 
     useEffect(() => {
         if (isListeningMessage) {
-            setNewMessages(transcript.split().map((v,i)=>{
-                if (v.includes('мира') && v.includes('МИРЭА')){
-                    return 'МИРЭА'
-                }
-
-                return v
-            }).join(' '))
+            setNewMessages(transcript)
 
             clearTimeout(timer.current)
             timer.current = setTimeout(async () => {
@@ -50,7 +44,10 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
                 }).catch(()=>{
                     setMessageList(prev=>[...prev, {
                         type: 'bot',
-                        text: 'Извините, я не нашел точной информации по вашему запросу о МИРЭА. Пожалуйста, уточните вопрос или обратитесь к официальному сайту института для получения более подробной информации.'
+                        text: 'Извините, я не нашел точной информации по вашему запросу о МИРЭА. Пожалуйста, уточните вопрос или обратитесь к официальному сайту института для получения более подробной информации.' +
+                            'Извините, я не нашел точной информации по вашему запросу о МИРЭА. Пожалуйста, уточните вопрос или обратитесь к официальному сайту института для получения более подробной информации.\'' +
+                            'Извините, я не нашел точной информации по вашему запросу о МИРЭА. Пожалуйста, уточните вопрос или обратитесь к официальному сайту института для получения более подробной информации.\'' +
+                            'Извините, я не нашел точной информации по вашему запросу о МИРЭА. Пожалуйста, уточните вопрос или обратитесь к официальному сайту института для получения более подробной информации.\''
                     }])
                     setIsLoadingBotAnswer(false)
                 })
@@ -58,11 +55,26 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
                 resetTranscript()
             }, 2500)
         }
-    })
+    },[transcript])
 
     useEffect(() => {
-        listEndRef.current.scrollIntoView({ behavior: 'smooth' })
-    }, [newMessages, messageList])
+
+        const resizeObserver = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                listEndRef.current.scrollIntoView({ behavior: 'smooth' })
+            }
+        });
+
+        if (listRef.current) {
+            resizeObserver.observe(listRef.current);
+        }
+
+        return () => {
+            if (listRef.current) {
+                resizeObserver.unobserve(listRef.current);
+            }
+        };
+    }, []);
 
     const renderMessageList=()=>{
         return (
@@ -75,7 +87,7 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
     }
 
     return (
-        <div className='message-list'>
+        <div className='message-list' ref={listRef}>
             {messageList.length === 0 && newMessages.trim() === '' ? (
                 <div className='message-list__empty-log'>
                     <TypeAnimation

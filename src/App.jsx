@@ -5,12 +5,13 @@ import './font.scss'
 import { Footer } from './component/footer/Footer';
 import { Micro } from './component/micro/Micro';
 import { MessageList } from './component/message/list/MessageList';
-import {useEffect,  useState} from "react";
+import { useEffect, useRef, useState } from 'react';
 
 import SpeechRecognition,{useSpeechRecognition} from "react-speech-recognition";
 
 function App() {
 	const [isListeningMessage, setIsListeningMessage] = useState(false);
+	const interval = useRef(null);
 
 	const {
 		transcript,
@@ -36,6 +37,17 @@ function App() {
 		}
 	}, [transcript])
 
+	useEffect(() => {
+		interval.current = setInterval(() => {
+			if (!isListeningMessage){
+				resetTranscript()
+			}
+		}, 15*60*1000)
+
+		return () => {
+			clearInterval(interval.current)
+		}
+	}, []);
 
 	return (
 		<div className="app">

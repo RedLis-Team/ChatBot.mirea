@@ -4,8 +4,10 @@ import botIcon from '../../../assert/botlogo.jpg'
 import './MessageCard.scss'
 import {ThreeDots} from "react-loader-spinner";
 import {TypeAnimation} from "react-type-animation";
+import { useEffect } from 'react';
 
 export function MessageCard({type, text, isLoading}){
+
 
     const renderMessage = ()=>{
         if (isLoading){
@@ -44,7 +46,7 @@ export function MessageCard({type, text, isLoading}){
                 <div className='message__icon'>
                     <img src={botIcon} alt='' className='message__img'/>
                 </div>
-                <p className='message__text'>{renderMessage()}</p>
+                <div className='message__text'>{renderMessage()}</div>
             </div>
         </div>
     )
