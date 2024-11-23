@@ -22,22 +22,38 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
 
     useEffect(() => {
         if (isListeningMessage) {
-            setNewMessages(transcript)
+            const letter = transcript.split(' ').map((v)=>{
+                const mira = /^мира/;
+                const miro = /^миро$/;
+
+                if (mira.test(v.toLowerCase()) || miro.test(v.toLowerCase())){
+                    return 'МИРЭА'
+                }
+
+                const kych = /^куч$/
+                if (kych.test(v.toLowerCase())){
+                    return 'Кудж'
+                }
+
+                return v
+            }).join(' ')
+
+            setNewMessages(letter)
 
             clearTimeout(timer.current)
             timer.current = setTimeout(async () => {
                 setIsListeningMessage(false)
 
-                if (newMessages.trim() === ''){
+                if (letter.trim() === ''){
                     return
                 }
 
-                setMessageList(prev=>[...prev, {type: 'me', text: newMessages}])
+                setMessageList(prev=>[...prev, {type: 'me', text: letter}])
                 setNewMessages('')
 
                 setIsLoadingBotAnswer(true)
                 botAxios
-                    .get(`/answer?text=${newMessages}`)
+                    .get(`/answer?text=${letter}`)
                 .then(({data}) => {
                     setIsLoadingBotAnswer(false)
                     setMessageList(prev=>[...prev, data])
@@ -55,7 +71,6 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
     },[transcript])
 
     useEffect(() => {
-
         const resizeObserver = new ResizeObserver((entries) => {
             for (let entry of entries) {
                 listEndRef.current.scrollIntoView({ behavior: 'smooth' })
@@ -71,7 +86,7 @@ export function MessageList({isListeningMessage, transcript, resetTranscript,set
                 resizeObserver.unobserve(listRef.current);
             }
         };
-    }, []);
+    }, [listRef.current]);
 
     const renderMessageList=()=>{
         return (

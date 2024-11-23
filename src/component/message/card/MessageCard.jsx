@@ -3,8 +3,7 @@ import clsx from 'clsx';
 import botIcon from '../../../assert/botlogo.jpg'
 import './MessageCard.scss'
 import {ThreeDots} from "react-loader-spinner";
-import {TypeAnimation} from "react-type-animation";
-import { useEffect } from 'react';
+import { TypeAnimation } from 'react-type-animation';
 
 export function MessageCard({type, text, isLoading}){
 
@@ -28,11 +27,13 @@ export function MessageCard({type, text, isLoading}){
         if (type ==='bot'){
             return (
                 <TypeAnimation
-                    speed={80}
+                    speed={90}
                     sequence={text}
-                    wrapper="span"
+                    wrapper="div"
                     cursor={false}
                     repeat={1}
+                    style={{ whiteSpace: 'pre-line' }}
+
                 />
             )
         }
